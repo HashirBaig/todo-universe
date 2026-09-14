@@ -2,9 +2,6 @@ import Wrapper from "../components/Wrapper";
 import Hero from "../components/Hero";
 import AddTaskCard from "@/components/AddTaskCard";
 
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-
 function LandingPage() {
   return (
     <Wrapper>
@@ -20,10 +17,6 @@ function LandingPage() {
               {"5"} tasks . {"2"} remaining
             </p>
           </div>
-          <Button className={"text-blue-100"}>
-            <Plus className="size-7" />
-            <span className="text-lg">Add Task</span>
-          </Button>
         </div>
       </section>
 

@@ -5,6 +5,7 @@ import CardWrapper from "@/components/CardWrapper";
 
 import { useState } from "react";
 import { toast } from "sonner";
+import { Plus, Calendar } from "lucide-react";
 
 type AddTaskFormData = {
   task: string;
@@ -33,18 +34,31 @@ function AddTaskCard() {
   return (
     <CardWrapper>
       <form className="flex items-center gap-4" onSubmit={handleOnSubmit}>
-        <Input
-          id="task"
-          type="task"
-          className="text-lg"
-          placeholder="What needs to be done?"
-          value={formData.task}
-          onChange={(e) => setFormData({ ...formData, task: e?.target?.value })}
-          disabled={isLoading}
-        />
+        <div className="flex items-center grow border-2 border-blue-400/10 rounded-xl focus-within:ring-2 focus-within:ring-blue-300/10 focus-within:outline-none transition-shadow">
+          <Input
+            id="task"
+            type="text"
+            className="text-lg border-none focus-visible:ring-0 focus-visible:outline-none"
+            placeholder="What needs to be done?"
+            value={formData.task}
+            onChange={(e) =>
+              setFormData({ ...formData, task: e?.target?.value })
+            }
+            disabled={isLoading}
+          />
 
-        <Button className={"w-20 text-lg"}>
-          {isLoading ? <Spinner className="size-6" /> : <span>Add</span>}
+          <Calendar className="size-8 text-blue-400 mr-2" />
+        </div>
+
+        <Button className={"text-lg"}>
+          {isLoading ? (
+            <Spinner className="size-6" />
+          ) : (
+            <>
+              <Plus className="size-7" />
+              <span>Add Task</span>
+            </>
+          )}
         </Button>
       </form>
     </CardWrapper>
