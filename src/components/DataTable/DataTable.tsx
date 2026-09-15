@@ -1,14 +1,7 @@
 import { useState } from "react";
 import { useTable, type ColumnDef, type RowData } from "@tanstack/react-table";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 import { features, type DataTableFeatures } from "./DataTableFeatures";
 
@@ -34,37 +27,26 @@ function DataTable<TData extends RowData>({
   });
 
   return (
-    <div>
+    <div className="mt-4">
       <div className=" border-gray-800 overflow-hidden">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="text-blue-100 text-md">
-                    {header.isPlaceholder ? null : (
-                      <table.FlexRender header={header} />
-                    )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
+        <Table className="table-fixed">
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="text-blue-100 text-md border-b-blue-400/10"
+                  className="text-blue-100 text-md border-b-blue-400/10 hover:bg-blue-100/5"
                 >
                   {row?.getVisibleCells()?.map((cell) => (
-                    <>
-                      {console.log(cell)}
-                      <TableCell key={cell.id} className="py-6">
-                        <table.FlexRender cell={cell} />
-                      </TableCell>
-                    </>
+                    <TableCell
+                      key={cell.id}
+                      className={
+                        cell.column.id === "select" ? "w-10 py-6" : "py-6"
+                      }
+                    >
+                      <table.FlexRender cell={cell} />
+                    </TableCell>
                   ))}
                 </TableRow>
               ))

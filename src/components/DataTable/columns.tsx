@@ -1,6 +1,7 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
+import { Star } from "lucide-react";
 
 import { type TypeTaskList } from "@/lib/const";
 import { type DataTableFeatures } from "./DataTableFeatures";
@@ -10,16 +11,6 @@ const columnHelper = createColumnHelper<DataTableFeatures, TypeTaskList>();
 export const columns = columnHelper.columns([
   columnHelper.display({
     id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        indeterminate={
-          table.getIsSomePageRowsSelected() && !table.getIsAllPageRowsSelected()
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
@@ -38,8 +29,8 @@ export const columns = columnHelper.columns([
         <span
           className={
             row.original.isCompleted
-              ? "line-through text-gray-500"
-              : "text-gray-100"
+              ? "line-through text-gray-500 text-lg"
+              : "text-gray-100 text-lg"
           }
         >
           {row?.original?.task}
@@ -47,20 +38,11 @@ export const columns = columnHelper.columns([
 
         <div className="flex items-center gap-2">
           {getValue() ? (
-            <Badge className="bg-amber-500/10 text-red-500 border-red-500/20 text-md p-4">
-              Important
+            <Badge className="bg-amber-500/10 text-red-500 border-red-500/20">
+              <Star className="size-4" />
+              <span>Important</span>
             </Badge>
           ) : null}
-
-          {getValue() ? (
-            <Badge className="bg-lime-500/10 text-lime-500 border-lime-500/20 text-md p-4">
-              Completed
-            </Badge>
-          ) : (
-            <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20 text-md p-4">
-              Pending
-            </Badge>
-          )}
         </div>
       </div>
     ),
