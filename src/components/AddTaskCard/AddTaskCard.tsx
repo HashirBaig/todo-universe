@@ -50,7 +50,10 @@ function AddTaskCard() {
           <Calendar className="size-8 text-blue-400 mr-2" />
         </div>
 
-        <Button className={"text-lg"}>
+        <Button
+          className={"text-lg"}
+          disabled={isLoading || !formData?.task || formData?.task === ""}
+        >
           {isLoading ? (
             <Spinner className="size-6" />
           ) : (
