@@ -7,10 +7,12 @@ import { getColumns } from "@/components/DataTable/columns";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+import { useTaskStore } from "@/store/taskStore";
 
 function TaskList() {
   const [activeTab, setActiveTab] = useState<string | null>("");
   const [taskData, setTaskData] = useState<TypeTaskList[]>([]);
+  const setTaskInfo = useTaskStore((state) => state?.setTaskInfo);
 
   const getTaskData = useCallback(() => {
     if (activeTab === "active") {
@@ -28,6 +30,13 @@ function TaskList() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     getTaskData();
   }, [getTaskData]);
+
+  useEffect(() => {
+    setTaskInfo({
+      totalTask: taskData?.length || 0,
+      remainingTask: taskData?.filter((item) => !item?.isCompleted)?.length,
+    });
+  }, [setTaskInfo, taskData]);
 
   const onTabChange = (value: string | null) => {
     setActiveTab(value);

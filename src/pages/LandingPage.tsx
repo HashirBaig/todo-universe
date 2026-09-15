@@ -3,7 +3,10 @@ import Hero from "../components/Hero";
 import AddTaskCard from "@/components/AddTaskCard";
 import TaskList from "@/components/TaskList";
 
+import { useTaskStore } from "@/store/taskStore";
+
 function LandingPage() {
+  const taskSummary = useTaskStore((state) => state);
   return (
     <Wrapper>
       {/* Hero/Header */}
@@ -15,7 +18,8 @@ function LandingPage() {
           <div className="flex flex-col gap-3 text-blue-100">
             <h1 className="text-4xl font-semibold">All Tasks</h1>
             <p>
-              {"5"} tasks . {"2"} remaining
+              {taskSummary?.totalTask || 0} tasks .{" "}
+              {taskSummary?.remainingTask || 0} remaining
             </p>
           </div>
         </div>
