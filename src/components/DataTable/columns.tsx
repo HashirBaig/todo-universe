@@ -1,12 +1,19 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { Star } from "lucide-react";
+import { Star, Pencil, Trash } from "lucide-react";
 
 import { type TypeTaskList } from "@/lib/const";
 import { type DataTableFeatures } from "./DataTableFeatures";
 
 const columnHelper = createColumnHelper<DataTableFeatures, TypeTaskList>();
+
+const handleOnClick = (
+  e: React.MouseEvent<SVGSVGElement>,
+  task: TypeTaskList,
+) => {
+  console.log("clicked task: ", task);
+};
 
 export const columns = columnHelper.columns([
   columnHelper.display({
@@ -44,6 +51,23 @@ export const columns = columnHelper.columns([
             </Badge>
           ) : null}
         </div>
+      </div>
+    ),
+  }),
+
+  columnHelper.display({
+    id: "actions",
+    header: "Action",
+    cell: ({ row }) => (
+      <div className="flex items-center justify-center gap-3">
+        <Pencil
+          className="text-blue-100 size-5 hover:text-blue-400 cursor-pointer"
+          onClick={(e) => handleOnClick(e, row.original)}
+        />
+        <Trash
+          className="text-blue-100 size-5 hover:text-red-400 cursor-pointer"
+          onClick={(e) => handleOnClick(e, row.original)}
+        />
       </div>
     ),
   }),

@@ -28,7 +28,7 @@ function DataTable<TData extends RowData>({
 
   return (
     <div className="mt-4">
-      <div className=" border-gray-800 overflow-hidden">
+      <div className=" border-gray-800 rounded-2xl overflow-hidden">
         <Table className="table-fixed">
           <TableBody>
             {table.getRowModel().rows?.length ? (
@@ -36,7 +36,7 @@ function DataTable<TData extends RowData>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="text-blue-100 text-md border-b-blue-400/10 hover:bg-blue-100/5"
+                  className="text-blue-100 text-md border-b-blue-400/10 hover:bg-blue-100/5 data-[state=selected]:bg-blue-400/10"
                 >
                   {row?.getVisibleCells()?.map((cell) => (
                     <TableCell
