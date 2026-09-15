@@ -1,10 +1,12 @@
 import CardWrapper from "@/components/CardWrapper";
+import DataTable from "@/components/DataTable";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NavTabsList, DataTaskList, type TypeTaskList } from "@/lib/const";
-import DataTable from "@/components/DataTable";
 import { getColumns } from "@/components/DataTable/columns";
 
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
 
 function TaskList() {
   const [activeTab, setActiveTab] = useState<string | null>("");
@@ -14,11 +16,23 @@ function TaskList() {
   };
 
   const handleEdit = (task: TypeTaskList) => {
-    console.log("edit task: ", task);
+    try {
+      console.log("edit task: ", task);
+      toast.success("Task successfully updated!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to edit!");
+    }
   };
 
   const handleDelete = (task: TypeTaskList) => {
-    console.log("delete task: ", task);
+    try {
+      console.log("delete task: ", task);
+      toast.success("Task successfully deleted!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to edit!");
+    }
   };
 
   const columns = useMemo(
