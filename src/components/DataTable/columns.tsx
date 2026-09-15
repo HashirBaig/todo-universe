@@ -1,7 +1,7 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { Star, Pencil, Trash } from "lucide-react";
+import { Star, Pencil, Trash, Check } from "lucide-react";
 
 import { type TypeTaskList } from "@/lib/const";
 import { type DataTableFeatures } from "./DataTableFeatures";
@@ -30,7 +30,7 @@ export function getColumns({ onEdit, onDelete }: GetColumnsProps) {
 
     columnHelper.accessor("task", {
       header: "Task",
-      cell: ({ row, getValue }) => (
+      cell: ({ row }) => (
         <div className="flex flex-col justify-center space-y-3">
           <span
             className={
@@ -43,12 +43,23 @@ export function getColumns({ onEdit, onDelete }: GetColumnsProps) {
           </span>
 
           <div className="flex items-center gap-2">
-            {getValue() ? (
+            {row?.original?.isImportant ? (
               <Badge className="bg-amber-500/10 text-red-500 border-red-500/20">
                 <Star className="size-4" />
                 <span>Important</span>
               </Badge>
             ) : null}
+
+            {row?.original?.isCompleted ? (
+              <Badge className="bg-green-500/10 text-green-500 border-green-500/20">
+                <Check className="size-4" />
+                <span>Completed</span>
+              </Badge>
+            ) : (
+              <Badge className="bg-amber-500/10 text-amber-500 border-amber-500/20">
+                <span>Pending</span>
+              </Badge>
+            )}
           </div>
         </div>
       ),
