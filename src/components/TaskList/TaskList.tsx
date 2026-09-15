@@ -12,11 +12,7 @@ function TaskList() {
 
   return (
     <CardWrapper>
-      <Tabs
-        defaultValue="account"
-        className="w-full"
-        onValueChange={onTabChange}
-      >
+      <Tabs className="w-full" onValueChange={onTabChange}>
         <TabsList>
           {NavTabsList?.map(({ label, value }, idx) => (
             <TabsTrigger value={value} key={`nav-tabs-todo-${idx}`}>

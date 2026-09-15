@@ -1,13 +1,57 @@
 // Todo List
-type NavTabsType = {
+type TypeNavTabs = {
   label: string;
   value: string;
 };
 
-export const NavTabsList: NavTabsType[] = [
+export const NavTabsList: TypeNavTabs[] = [
   { label: "All", value: "all" },
   { label: "Active", value: "active" },
   { label: "Completed", value: "completed" },
+];
+
+type TypeTaskList = {
+  id: number;
+  task: string;
+  createdDate: string;
+  isImportant: boolean;
+  isCompleted: boolean;
+  isEdited: boolean;
+};
+
+export const TaskList: TypeTaskList[] = [
+  {
+    id: 1,
+    task: "Finish portfolio website",
+    createdDate: "2026-09-15T00:17:48.091272",
+    isImportant: true,
+    isCompleted: false,
+    isEdited: false,
+  },
+  {
+    id: 2,
+    task: "Study Dutch A2/B1",
+    createdDate: "2026-09-15T00:09:04.091272",
+    isImportant: false,
+    isCompleted: false,
+    isEdited: false,
+  },
+  {
+    id: 3,
+    task: "Go to gym",
+    createdDate: "2026-09-15T00:13:15.091272",
+    isImportant: false,
+    isCompleted: false,
+    isEdited: false,
+  },
+  {
+    id: 4,
+    task: "Plan the weekend trip",
+    createdDate: "2026-09-15T00:14:55.091272",
+    isImportant: false,
+    isCompleted: true,
+    isEdited: false,
+  },
 ];
 
 // Meal Cart Data
