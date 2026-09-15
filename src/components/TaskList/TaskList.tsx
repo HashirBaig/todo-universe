@@ -1,10 +1,10 @@
 import CardWrapper from "@/components/CardWrapper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { NavTabsList, DataTaskList } from "@/lib/const";
+import { NavTabsList, DataTaskList, type TypeTaskList } from "@/lib/const";
 import DataTable from "@/components/DataTable";
-import { columns } from "@/components/DataTable/columns";
+import { getColumns } from "@/components/DataTable/columns";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 function TaskList() {
   const [activeTab, setActiveTab] = useState<string | null>("");
@@ -12,6 +12,19 @@ function TaskList() {
   const onTabChange = (value: string | null) => {
     setActiveTab(value);
   };
+
+  const handleEdit = (task: TypeTaskList) => {
+    console.log("edit task: ", task);
+  };
+
+  const handleDelete = (task: TypeTaskList) => {
+    console.log("delete task: ", task);
+  };
+
+  const columns = useMemo(
+    () => getColumns({ onEdit: handleEdit, onDelete: handleDelete }),
+    [],
+  );
 
   return (
     <CardWrapper>
