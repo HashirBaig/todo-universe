@@ -10,10 +10,10 @@ const columnHelper = createColumnHelper<DataTableFeatures, TypeTaskList>();
 
 type GetColumnsProps = {
   onEdit: (task: TypeTaskList) => void;
-  onDelete: (task: TypeTaskList) => void;
+  onDeleteClick: (task: TypeTaskList) => void;
 };
 
-export function getColumns({ onEdit, onDelete }: GetColumnsProps) {
+export function getColumns({ onEdit, onDeleteClick }: GetColumnsProps) {
   return columnHelper.columns([
     columnHelper.display({
       id: "select",
@@ -76,7 +76,7 @@ export function getColumns({ onEdit, onDelete }: GetColumnsProps) {
           />
           <Trash
             className="text-blue-100 size-5 hover:text-red-400 cursor-pointer"
-            onClick={() => onDelete(row.original)}
+            onClick={() => onDeleteClick(row.original)}
           />
         </div>
       ),

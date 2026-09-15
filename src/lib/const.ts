@@ -11,12 +11,12 @@ export const NavTabsList: TypeNavTabs[] = [
 ];
 
 export type TypeTaskList = {
-  id: number;
+  id?: number;
   task: string;
-  createdDate: string;
-  isImportant: boolean;
-  isCompleted: boolean;
-  isEdited: boolean;
+  createdDate?: string;
+  isImportant?: boolean;
+  isCompleted?: boolean;
+  isEdited?: boolean;
 };
 
 export const DataTaskList: TypeTaskList[] = [
