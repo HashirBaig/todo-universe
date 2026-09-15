@@ -1,6 +1,7 @@
 import Wrapper from "../components/Wrapper";
 import Hero from "../components/Hero";
 import AddTaskCard from "@/components/AddTaskCard";
+import TaskList from "@/components/TaskList";
 
 function LandingPage() {
   return (
@@ -20,11 +21,15 @@ function LandingPage() {
         </div>
       </section>
 
+      {/* Add Task Card */}
       <section className="mt-8">
         <AddTaskCard />
       </section>
 
-      {/* Add Task Card */}
+      {/* Task Listing */}
+      <section className="mt-8">
+        <TaskList />
+      </section>
     </Wrapper>
   );
 }

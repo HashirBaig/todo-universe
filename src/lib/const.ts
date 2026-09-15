@@ -1,3 +1,16 @@
+// Todo List
+type NavTabsType = {
+  label: string;
+  value: string;
+};
+
+export const NavTabsList: NavTabsType[] = [
+  { label: "All", value: "all" },
+  { label: "Active", value: "active" },
+  { label: "Completed", value: "completed" },
+];
+
+// Meal Cart Data
 type OrderStatus = "PENDING" | "PROCESSING" | "DELIVERED" | "CANCELLED";
 
 export type Order = {
