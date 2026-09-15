@@ -10,7 +10,7 @@ export const NavTabsList: TypeNavTabs[] = [
   { label: "Completed", value: "completed" },
 ];
 
-type TypeTaskList = {
+export type TypeTaskList = {
   id: number;
   task: string;
   createdDate: string;
@@ -19,7 +19,7 @@ type TypeTaskList = {
   isEdited: boolean;
 };
 
-export const TaskList: TypeTaskList[] = [
+export const DataTaskList: TypeTaskList[] = [
   {
     id: 1,
     task: "Finish portfolio website",

@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useTable, type ColumnDef, type RowData } from "@tanstack/react-table";
+
 import {
   Table,
   TableBody,
@@ -5,51 +8,85 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../components/ui/table";
-import { Badge } from "../../components/ui/badge";
-import { STATUS_STYLES, type Order } from "../../lib/const";
-import { formatCurrency } from "../../lib/utils";
+} from "@/components/ui/table";
 
-import dayjs from "dayjs";
+import { features, type DataTableFeatures } from "./DataTableFeatures";
 
-type DataTableProps = {
-  data: Order[];
-};
+interface DataTableProps<TData extends RowData> {
+  columns: ColumnDef<DataTableFeatures, TData>[];
+  data: TData[];
+}
 
-function DataTable({ data }: DataTableProps) {
+function DataTable<TData extends RowData>({
+  columns,
+  data,
+}: DataTableProps<TData>) {
+  const [rowSelection, setRowSelection] = useState({});
+
+  const table = useTable({
+    features,
+    data,
+    columns,
+    onRowSelectionChange: setRowSelection,
+    state: {
+      rowSelection,
+    },
+  });
+
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className=" text-gray-100">Order #</TableHead>
-          <TableHead className=" text-gray-100">Customer</TableHead>
-          <TableHead className=" text-gray-100">Date</TableHead>
-          <TableHead className="text-right text-gray-100">Amount</TableHead>
-          <TableHead className=" text-gray-100">Status</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data.map((order: Order) => (
-          <TableRow key={order.orderNumber}>
-            <TableCell className="font-medium py-4">
-              {order?.orderNumber}
-            </TableCell>
-            <TableCell className="py-4">{order.customerName}</TableCell>
-            <TableCell className="py-4">
-              {dayjs(order?.orderDate).format("DD/MM/YYYY")}
-            </TableCell>
-            <TableCell className="text-right py-4">
-              {formatCurrency(order.totalAmount)}
-            </TableCell>
-            <TableCell className="py-4">
-              <Badge variant="outline" className={STATUS_STYLES[order?.status]}>
-                {order.status}
-              </Badge>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <div>
+      <div className=" border-gray-800 overflow-hidden">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id} className="text-blue-100 text-md">
+                    {header.isPlaceholder ? null : (
+                      <table.FlexRender header={header} />
+                    )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className="text-blue-100 text-md border-b-blue-400/10"
+                >
+                  {row?.getVisibleCells()?.map((cell) => (
+                    <>
+                      {console.log(cell)}
+                      <TableCell key={cell.id} className="py-6">
+                        <table.FlexRender cell={cell} />
+                      </TableCell>
+                    </>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      <div className="flex-1 text-sm text-gray-400 mt-3">
+        {table.getFilteredSelectedRowModel().rows.length} of{" "}
+        {table.getFilteredRowModel().rows.length} row(s) selected.
+      </div>
+    </div>
   );
 }
 

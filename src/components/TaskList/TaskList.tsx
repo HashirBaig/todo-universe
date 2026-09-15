@@ -1,6 +1,9 @@
 import CardWrapper from "@/components/CardWrapper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { NavTabsList } from "@/lib/const";
+import { NavTabsList, DataTaskList } from "@/lib/const";
+import DataTable from "@/components/DataTable";
+import { columns } from "@/components/DataTable/columns";
+
 import { useState } from "react";
 
 function TaskList() {
@@ -21,7 +24,9 @@ function TaskList() {
           ))}
         </TabsList>
 
-        <TabsContent value={activeTab}>{activeTab}</TabsContent>
+        <TabsContent value={activeTab}>
+          <DataTable columns={columns} data={DataTaskList} />
+        </TabsContent>
       </Tabs>
     </CardWrapper>
   );
