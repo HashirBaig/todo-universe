@@ -69,7 +69,7 @@ export function getColumns({ onEditClick, onDeleteClick }: GetColumnsProps) {
       id: "actions",
       header: "Action",
       cell: ({ row }) => (
-        <div className="flex items-center justify-center gap-3">
+        <div className="flex items-center justify-end gap-3">
           <Pencil
             className="text-blue-100 size-5 hover:text-blue-400 cursor-pointer"
             onClick={() => onEditClick(row.original)}
