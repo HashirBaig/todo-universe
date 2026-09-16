@@ -9,11 +9,11 @@ import { type DataTableFeatures } from "./DataTableFeatures";
 const columnHelper = createColumnHelper<DataTableFeatures, TypeTaskList>();
 
 type GetColumnsProps = {
-  onEdit: (task: TypeTaskList) => void;
+  onEditClick: (task: TypeTaskList) => void;
   onDeleteClick: (task: TypeTaskList) => void;
 };
 
-export function getColumns({ onEdit, onDeleteClick }: GetColumnsProps) {
+export function getColumns({ onEditClick, onDeleteClick }: GetColumnsProps) {
   return columnHelper.columns([
     columnHelper.display({
       id: "select",
@@ -72,7 +72,7 @@ export function getColumns({ onEdit, onDeleteClick }: GetColumnsProps) {
         <div className="flex items-center justify-center gap-3">
           <Pencil
             className="text-blue-100 size-5 hover:text-blue-400 cursor-pointer"
-            onClick={() => onEdit(row.original)}
+            onClick={() => onEditClick(row.original)}
           />
           <Trash
             className="text-blue-100 size-5 hover:text-red-400 cursor-pointer"

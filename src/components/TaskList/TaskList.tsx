@@ -10,11 +10,15 @@ import { toast } from "sonner";
 import { useTaskStore } from "@/store/taskStore";
 
 import DeleteTaskModel from "@/components/Models/DeleteTaskModel";
+import EditTaskModel from "@/components/Models/EditTaskModel";
 
 function TaskList() {
   const [isDeleteTaskModelOpen, setIsDeleteTaskModelOpen] =
     useState<boolean>(false);
   const [taskToDelete, setTaskToDelete] = useState<TypeTaskList | null>(null);
+  const [isEditTaskModelOpen, setIsEditTaskModelOpen] =
+    useState<boolean>(false);
+  const [taskToEdit, setTaskToEdit] = useState<TypeTaskList | null>(null);
 
   const [activeTab, setActiveTab] = useState<string | null>("");
   const [taskData, setTaskData] = useState<TypeTaskList[]>([]);
@@ -58,14 +62,26 @@ function TaskList() {
     setTaskToDelete(task);
   };
 
+  const openEditModal = (task: TypeTaskList) => {
+    setIsEditTaskModelOpen(!isEditTaskModelOpen);
+    setTaskToEdit(task);
+  };
+
   // Edit Task Method
-  const handleEdit = (task: TypeTaskList) => {
+  const handleEdit = () => {
+    if (!taskToEdit) return;
+
     try {
-      console.log("edit task: ", task);
-      toast.success("Task successfully updated!");
+      console.log("edit task: ", taskToEdit);
+      toast.success("Task successfully edited!");
+      // TODO: setTaskData(taskData.filter(t => t.id !== taskToDelete.id))
+      // or call a delete API once one exists
     } catch (error) {
       console.error(error);
-      toast.error("Failed to edit!");
+      toast.error("Failed to delete!");
+    } finally {
+      setIsEditTaskModelOpen(false);
+      setTaskToEdit(null);
     }
   };
 
@@ -90,7 +106,7 @@ function TaskList() {
   const columns = useMemo(
     () =>
       getColumns({
-        onEdit: handleEdit,
+        onEditClick: openEditModal,
         onDeleteClick: openDeleteModal,
       }),
     [],
@@ -115,6 +131,12 @@ function TaskList() {
       </CardWrapper>
 
       {/* Modals */}
+      <EditTaskModel
+        open={isEditTaskModelOpen}
+        onOpenChange={setIsEditTaskModelOpen}
+        onDelete={handleEdit}
+      />
+
       <DeleteTaskModel
         open={isDeleteTaskModelOpen}
         onOpenChange={setIsDeleteTaskModelOpen}

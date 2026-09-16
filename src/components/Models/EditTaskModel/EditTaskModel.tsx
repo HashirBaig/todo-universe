@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -10,100 +8,25 @@ import {
 import { Label } from "../../ui/label";
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
-import { register, type RegisterPayload } from "../../../services/authService";
 
-type AddStaffModalProps = {
+type EditTaskModelProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSuccess: () => void;
+  onDelete: () => void;
 };
 
-const initialFormData: RegisterPayload = {
-  email: "newstaff@mealcart.com",
-  password: "abcd1234",
-  fullName: "new staff",
-  role: "STAFF",
-};
-
-function AddStaffModal({ open, onOpenChange, onSuccess }: AddStaffModalProps) {
-  const [formData, setFormData] = useState<RegisterPayload>(initialFormData);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      await register(formData);
-      setFormData(initialFormData);
-      onSuccess();
-      onOpenChange(false);
-      toast.success("Staff member added successfully");
-    } catch {
-      setError("Failed to add staff member. Please try again.");
-      toast.error("Failed to add staff member");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+function EditTaskModel({ open, onOpenChange, onDelete }: EditTaskModelProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-gray-900 border-gray-800 text-gray-100">
         <DialogHeader>
-          <DialogTitle className="text-gray-100">Add Staff Member</DialogTitle>
+          <DialogTitle className="text-gray-100">Edit Task</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mt-2">
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-
+        <form className="space-y-4 mt-2">
           <div className="space-y-2">
-            <Label htmlFor="fullName" className="text-gray-300">
-              Full Name
-            </Label>
-            <Input
-              id="fullName"
-              value={formData.fullName}
-              onChange={(e) =>
-                setFormData({ ...formData, fullName: e.target.value })
-              }
-              className="bg-gray-900 border-gray-800 text-gray-100 placeholder:text-gray-600"
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-gray-300">
-              Email
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-              className="bg-gray-900 border-gray-800 text-gray-100 placeholder:text-gray-600"
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="password" className="text-gray-300">
-              Password
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-              className="bg-gray-900 border-gray-800 text-gray-100 placeholder:text-gray-600"
-              required
-            />
+            <Label htmlFor="task">Task</Label>
+            <Input id="task" type="text" />
           </div>
 
           <DialogFooter className="bg-gray-900 border-gray-800">
@@ -115,8 +38,8 @@ function AddStaffModal({ open, onOpenChange, onSuccess }: AddStaffModalProps) {
             >
               Cancel
             </Button>
-            <Button type="submit" className="bg-lime-800" disabled={isLoading}>
-              {isLoading ? "Adding..." : "Add Staff"}
+            <Button type="submit" className="bg-blue-800" onClick={onDelete}>
+              Edit Task
             </Button>
           </DialogFooter>
         </form>
@@ -125,4 +48,4 @@ function AddStaffModal({ open, onOpenChange, onSuccess }: AddStaffModalProps) {
   );
 }
 
-export default AddStaffModal;
+export default EditTaskModel;
