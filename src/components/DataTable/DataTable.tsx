@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTable, type ColumnDef, type RowData } from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
@@ -8,11 +8,13 @@ import { features, type DataTableFeatures } from "./DataTableFeatures";
 interface DataTableProps<TData extends RowData> {
   columns: ColumnDef<DataTableFeatures, TData>[];
   data: TData[];
+  onSelectionCountChange?: (count: number) => void;
 }
 
 function DataTable<TData extends RowData>({
   columns,
   data,
+  onSelectionCountChange,
 }: DataTableProps<TData>) {
   const [rowSelection, setRowSelection] = useState({});
 
@@ -25,6 +27,10 @@ function DataTable<TData extends RowData>({
       rowSelection,
     },
   });
+
+  useEffect(() => {
+    onSelectionCountChange?.(Object.keys(rowSelection).length);
+  }, [rowSelection, onSelectionCountChange]);
 
   return (
     <div className="mt-4">

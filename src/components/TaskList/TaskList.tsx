@@ -24,6 +24,7 @@ function TaskList() {
   const [taskData, setTaskData] = useState<TypeTaskList[]>([]);
 
   const setTaskInfo = useTaskStore((state) => state?.setTaskInfo);
+  const setMultiSelect = useTaskStore((state) => state?.setMultiSelect);
 
   // Get Task Data List
   const getTaskData = useCallback(() => {
@@ -55,6 +56,13 @@ function TaskList() {
   const onTabChange = (value: string | null) => {
     setActiveTab(value);
   };
+
+  const handleSelectionCountChange = useCallback(
+    (count: number) => {
+      setMultiSelect(count > 1);
+    },
+    [setMultiSelect],
+  );
 
   // Toggle model methods
   const openDeleteModal = (task: TypeTaskList) => {
@@ -123,7 +131,11 @@ function TaskList() {
           </TabsList>
 
           <TabsContent value={activeTab}>
-            <DataTable columns={columns} data={taskData} />
+            <DataTable
+              columns={columns}
+              data={taskData}
+              onSelectionCountChange={handleSelectionCountChange}
+            />
           </TabsContent>
         </Tabs>
       </CardWrapper>

@@ -68,18 +68,26 @@ export function getColumns({ onEditClick, onDeleteClick }: GetColumnsProps) {
     columnHelper.display({
       id: "actions",
       header: "Action",
-      cell: ({ row }) => (
-        <div className="flex items-center justify-end gap-3">
-          <Pencil
-            className="text-blue-100 size-5 hover:text-blue-400 cursor-pointer"
-            onClick={() => onEditClick(row.original)}
-          />
-          <Trash
-            className="text-blue-100 size-5 hover:text-red-400 cursor-pointer"
-            onClick={() => onDeleteClick(row.original)}
-          />
-        </div>
-      ),
+      cell: ({ row, table }) => {
+        const selectedCount = table.getSelectedRowModel().rows.length;
+
+        if (selectedCount > 1) {
+          return null;
+        }
+
+        return (
+          <div className="flex items-center justify-end gap-3">
+            <Pencil
+              className="text-blue-100 size-5 hover:text-blue-400 cursor-pointer"
+              onClick={() => onEditClick(row.original)}
+            />
+            <Trash
+              className="text-blue-100 size-5 hover:text-red-400 cursor-pointer"
+              onClick={() => onDeleteClick(row.original)}
+            />
+          </div>
+        );
+      },
     }),
   ]);
 }
