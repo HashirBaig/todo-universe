@@ -68,17 +68,15 @@ function TaskList() {
   };
 
   // Edit Task Method
-  const handleEdit = () => {
-    if (!taskToEdit) return;
-
+  const handleEdit = (updatedTask: TypeTaskList) => {
     try {
-      console.log("edit task: ", taskToEdit);
+      console.log("edit task: ", updatedTask);
       toast.success("Task successfully edited!");
-      // TODO: setTaskData(taskData.filter(t => t.id !== taskToDelete.id))
-      // or call a delete API once one exists
+      // TODO: setTaskData(taskData.map(t => t.id === updatedTask.id ? updatedTask : t))
+      // or call an update API once one exists
     } catch (error) {
       console.error(error);
-      toast.error("Failed to delete!");
+      toast.error("Failed to edit!");
     } finally {
       setIsEditTaskModelOpen(false);
       setTaskToEdit(null);
@@ -134,7 +132,8 @@ function TaskList() {
       <EditTaskModel
         open={isEditTaskModelOpen}
         onOpenChange={setIsEditTaskModelOpen}
-        onDelete={handleEdit}
+        task={taskToEdit}
+        onEdit={handleEdit}
       />
 
       <DeleteTaskModel

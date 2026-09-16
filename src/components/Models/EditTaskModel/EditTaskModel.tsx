@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,14 +9,38 @@ import {
 import { Label } from "../../ui/label";
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
+import { type TypeTaskList } from "@/lib/const";
 
 type EditTaskModelProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onDelete: () => void;
+  task: TypeTaskList | null;
+  onEdit: (updatedTask: TypeTaskList) => void;
 };
 
-function EditTaskModel({ open, onOpenChange, onDelete }: EditTaskModelProps) {
+function EditTaskModel({
+  open,
+  onOpenChange,
+  task,
+  onEdit,
+}: EditTaskModelProps) {
+  const [taskText, setTaskText] = useState("");
+
+  // Whenever a new task is passed in (or the modal opens), prefill the input
+  useEffect(() => {
+    if (task) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setTaskText(task.task);
+    }
+  }, [task]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!task) return;
+
+    onEdit({ ...task, task: taskText });
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-gray-900 border-gray-800 text-gray-100">
@@ -23,10 +48,15 @@ function EditTaskModel({ open, onOpenChange, onDelete }: EditTaskModelProps) {
           <DialogTitle className="text-gray-100">Edit Task</DialogTitle>
         </DialogHeader>
 
-        <form className="space-y-4 mt-2">
+        <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="space-y-2">
             <Label htmlFor="task">Task</Label>
-            <Input id="task" type="text" />
+            <Input
+              id="task"
+              type="text"
+              value={taskText}
+              onChange={(e) => setTaskText(e.target.value)}
+            />
           </div>
 
           <DialogFooter className="bg-gray-900 border-gray-800">
@@ -38,7 +68,7 @@ function EditTaskModel({ open, onOpenChange, onDelete }: EditTaskModelProps) {
             >
               Cancel
             </Button>
-            <Button type="submit" className="bg-blue-800" onClick={onDelete}>
+            <Button type="submit" className="bg-blue-800">
               Edit Task
             </Button>
           </DialogFooter>
