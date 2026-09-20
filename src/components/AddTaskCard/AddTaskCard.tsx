@@ -59,6 +59,7 @@ const AddTaskCard = ({ getList }: AddTaskCardProps) => {
             className="text-lg border-none focus-visible:ring-0 focus-visible:outline-none"
             placeholder="What needs to be done?"
             value={formData.task}
+            autoComplete="off"
             onChange={(e) =>
               setFormData({ ...formData, task: e?.target?.value })
             }

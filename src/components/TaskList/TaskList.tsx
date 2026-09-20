@@ -110,6 +110,7 @@ function TaskList({ dataList, getList }: TaskListProps) {
       if (res) {
         toast.success("Task marked completed!");
         getList("completed");
+        setActiveTab("completed");
       }
     } catch (error) {
       console.log(error);

@@ -9,13 +9,13 @@ import {
 import { Label } from "../../ui/label";
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
-import { type TypeTaskList } from "@/lib/const";
+import { type TYPE_TASK_LIST } from "@/lib/const";
 
 type EditTaskModelProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  task: TypeTaskList | null;
-  onEdit: (updatedTask: TypeTaskList) => void;
+  task: TYPE_TASK_LIST | null;
+  onEdit: (updatedTask: TYPE_TASK_LIST) => void;
 };
 
 function EditTaskModel({
@@ -30,7 +30,7 @@ function EditTaskModel({
   useEffect(() => {
     if (task) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setTaskText(task.task);
+      setTaskText(task?.task);
     }
   }, [task]);
 
