@@ -1,23 +1,27 @@
 import api from "../lib/axios";
 import { TASK } from "./apiUrls";
 
-type TaskPayload = {
+type TYPE_TASK_PAYLOAD = {
   id?: number;
   task: string;
 };
 
-export const getAllTaskByUser = () => {
-  return api.get(`${TASK}/`);
+type TYPE_GET_TASK_LIST_BY_USER = {
+  filter: string;
 };
 
-export const addTask = (payload: TaskPayload) => {
+export const getTaskListByUser = (params: TYPE_GET_TASK_LIST_BY_USER) => {
+  return api.get(`${TASK}?task_type=${params?.filter}`);
+};
+
+export const addTask = (payload: TYPE_TASK_PAYLOAD) => {
   return api.post(`${TASK}`, payload);
 };
 
-export const editTask = (payload: TaskPayload) => {
+export const editTask = (payload: TYPE_TASK_PAYLOAD) => {
   return api.put(`${TASK}/edit/${payload?.id}`, payload);
 };
 
-export const deleteTask = (payload: TaskPayload) => {
+export const deleteTask = (payload: TYPE_TASK_PAYLOAD) => {
   return api.delete(`${TASK}/delete/${payload?.id}`);
 };

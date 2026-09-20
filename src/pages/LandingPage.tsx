@@ -5,10 +5,10 @@ import TaskList from "@/components/TaskList";
 
 import { useState, useEffect, useCallback } from "react";
 import { useTaskStore } from "@/store/taskStore";
-import { getAllTaskByUser } from "@/services/taskService";
-import { type TYPE_TASK_LIST } from "@/lib/const";
+import { getTaskListByUser } from "@/services/taskService";
 import { toast } from "sonner";
-import { filterTasksByTab } from "@/lib/utils";
+
+import { type TYPE_TASK_LIST } from "@/lib/const";
 
 function LandingPage() {
   const totalTask = useTaskStore((state) => state.totalTask);
@@ -17,8 +17,8 @@ function LandingPage() {
 
   const getTaskData = useCallback(async (activeTab: string | null = "all") => {
     try {
-      const res = await getAllTaskByUser();
-      setTaskData(filterTasksByTab(res?.data ?? [], activeTab));
+      const res = await getTaskListByUser({ filter: activeTab ?? "all" });
+      setTaskData(res?.data);
     } catch (error) {
       console.error(error);
       toast.error("Failed to fetch data");
