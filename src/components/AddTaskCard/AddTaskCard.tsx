@@ -4,8 +4,9 @@ import { Spinner } from "@/components/ui/spinner";
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Plus, Calendar } from "lucide-react";
+import { Plus, Star } from "lucide-react";
 import { addTask } from "@/services/taskService";
+import { cn } from "@/lib/utils";
 
 import CardWrapper from "@/components/CardWrapper";
 
@@ -20,10 +21,12 @@ const FORMDATA_TEMPLATE = { task: "" };
 
 const AddTaskCard = ({ getList }: AddTaskCardProps) => {
   const [formData, setFormData] = useState<AddTaskFormData>(FORMDATA_TEMPLATE);
+  const [isTaskImportant, setIsTaskImportant] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const resetForm = () => {
     setFormData(FORMDATA_TEMPLATE);
+    setIsTaskImportant(false);
   };
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -31,8 +34,8 @@ const AddTaskCard = ({ getList }: AddTaskCardProps) => {
 
     try {
       setIsLoading(true);
-      const _data = { ...formData };
 
+      const _data = { ...formData, isImportant: isTaskImportant };
       const res = await addTask(_data);
 
       if (res) {
@@ -66,7 +69,13 @@ const AddTaskCard = ({ getList }: AddTaskCardProps) => {
             disabled={isLoading}
           />
 
-          <Calendar className="size-8 text-blue-400 mr-2" />
+          <Star
+            className={cn("size-8 mr-2 cursor-pointer", {
+              "text-blue-300": !isTaskImportant,
+              "text-red-300": isTaskImportant,
+            })}
+            onClick={() => setIsTaskImportant(!isTaskImportant)}
+          />
         </div>
 
         <Button
