@@ -1,29 +1,47 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import CardWrapper from "@/components/CardWrapper";
 
 import { useState } from "react";
 import { toast } from "sonner";
 import { Plus, Calendar } from "lucide-react";
+import { addTask } from "@/services/taskService";
+
+import CardWrapper from "@/components/CardWrapper";
 
 type AddTaskFormData = {
   task: string;
 };
+type AddTaskCardProps = {
+  getList: () => void;
+};
 
-function AddTaskCard() {
-  const [formData, setFormData] = useState<AddTaskFormData>({ task: "" });
+const FORMDATA_TEMPLATE = { task: "" };
+
+const AddTaskCard = ({ getList }: AddTaskCardProps) => {
+  const [formData, setFormData] = useState<AddTaskFormData>(FORMDATA_TEMPLATE);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const resetForm = () => {
+    setFormData(FORMDATA_TEMPLATE);
+  };
+
+  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       setIsLoading(true);
       const _data = { ...formData };
-      console.log("form-data: ", _data);
 
-      toast.success("Task successfully created!");
+      const res = await addTask(_data);
+
+      if (res) {
+        resetForm();
+        getList();
+        toast.success("Task successfully created!");
+      }
+
+      setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
       console.error(err);
@@ -52,7 +70,8 @@ function AddTaskCard() {
 
         <Button
           className={"text-lg"}
-          disabled={isLoading || !formData?.task || formData?.task === ""}
+          type="submit"
+          disabled={!formData?.task || isLoading}
         >
           {isLoading ? (
             <Spinner className="size-6" />
@@ -66,6 +85,6 @@ function AddTaskCard() {
       </form>
     </CardWrapper>
   );
-}
+};
 
 export default AddTaskCard;

@@ -1,1 +1,1 @@
-export const TASK = "/task";
+export const TASK = "/tasks";

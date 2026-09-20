@@ -2,7 +2,7 @@ import CardWrapper from "@/components/CardWrapper";
 import DataTable from "@/components/DataTable";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { NavTabsList, DataTaskList, type TypeTaskList } from "@/lib/const";
+import { NavTabsList, type TYPE_TASK_LIST } from "@/lib/const";
 import { getColumns } from "@/components/DataTable/columns";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -12,45 +12,38 @@ import { useTaskStore } from "@/store/taskStore";
 import DeleteTaskModel from "@/components/Models/DeleteTaskModel";
 import EditTaskModel from "@/components/Models/EditTaskModel";
 
-function TaskList() {
+type TaskListProps = {
+  dataList: TYPE_TASK_LIST[];
+  getList: (activeTab?: string) => void;
+};
+
+function TaskList({ dataList, getList }: TaskListProps) {
+  // Model states
   const [isDeleteTaskModelOpen, setIsDeleteTaskModelOpen] =
     useState<boolean>(false);
-  const [taskToDelete, setTaskToDelete] = useState<TypeTaskList | null>(null);
+  const [taskToDelete, setTaskToDelete] = useState<TYPE_TASK_LIST | null>(null);
   const [isEditTaskModelOpen, setIsEditTaskModelOpen] =
     useState<boolean>(false);
-  const [taskToEdit, setTaskToEdit] = useState<TypeTaskList | null>(null);
+  const [taskToEdit, setTaskToEdit] = useState<TYPE_TASK_LIST | null>(null);
 
+  // Active tab state
   const [activeTab, setActiveTab] = useState<string | null>("");
-  const [taskData, setTaskData] = useState<TypeTaskList[]>([]);
 
+  // Store methods
   const setTaskInfo = useTaskStore((state) => state?.setTaskInfo);
   const setMultiSelect = useTaskStore((state) => state?.setMultiSelect);
 
-  // Get Task Data List
-  const getTaskData = useCallback(() => {
-    if (activeTab === "active") {
-      const _data = DataTaskList?.filter((item) => !item?.isCompleted);
-      setTaskData(_data);
-    } else if (activeTab === "completed") {
-      const _data = DataTaskList?.filter((item) => item?.isCompleted);
-      setTaskData(_data);
-    } else {
-      setTaskData(DataTaskList);
-    }
-  }, [activeTab]);
-
-  // Use Effect hook
+  // useEffect Hook
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    getTaskData();
-  }, [getTaskData]);
+    getList(activeTab ?? "all");
+  }, [activeTab, getList]);
 
   useEffect(() => {
     setTaskInfo({
-      totalTask: taskData?.length || 0,
-      remainingTask: taskData?.filter((item) => !item?.isCompleted)?.length,
+      totalTask: dataList?.length || 0,
+      remainingTask: dataList?.filter((item) => !item?.isCompleted)?.length,
     });
-  }, [setTaskInfo, taskData]);
+  }, [setTaskInfo, dataList]);
 
   // On change method
   const onTabChange = (value: string | null) => {
@@ -65,18 +58,18 @@ function TaskList() {
   );
 
   // Toggle model methods
-  const openDeleteModal = (task: TypeTaskList) => {
-    setIsDeleteTaskModelOpen(!isDeleteTaskModelOpen);
+  const openDeleteModal = (task: TYPE_TASK_LIST) => {
+    setIsDeleteTaskModelOpen(true);
     setTaskToDelete(task);
   };
 
-  const openEditModal = (task: TypeTaskList) => {
-    setIsEditTaskModelOpen(!isEditTaskModelOpen);
+  const openEditModal = (task: TYPE_TASK_LIST) => {
+    setIsEditTaskModelOpen(true);
     setTaskToEdit(task);
   };
 
   // Edit Task Method
-  const handleEdit = (updatedTask: TypeTaskList) => {
+  const handleEdit = (updatedTask: TYPE_TASK_LIST) => {
     try {
       console.log("edit task: ", updatedTask);
       toast.success("Task successfully edited!");
@@ -133,7 +126,7 @@ function TaskList() {
           <TabsContent value={activeTab}>
             <DataTable
               columns={columns}
-              data={taskData}
+              data={dataList}
               onSelectionCountChange={handleSelectionCountChange}
             />
           </TabsContent>
