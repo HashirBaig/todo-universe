@@ -3,17 +3,22 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Star, Pencil, Trash, Check } from "lucide-react";
 
-import { type TypeTaskList } from "@/lib/const";
+import { type TYPE_TASK_LIST } from "@/lib/const";
 import { type DataTableFeatures } from "./DataTableFeatures";
 
-const columnHelper = createColumnHelper<DataTableFeatures, TypeTaskList>();
+const columnHelper = createColumnHelper<DataTableFeatures, TYPE_TASK_LIST>();
 
 type GetColumnsProps = {
-  onEditClick: (task: TypeTaskList) => void;
-  onDeleteClick: (task: TypeTaskList) => void;
+  onEditClick: (task: TYPE_TASK_LIST) => void;
+  onDeleteClick: (task: TYPE_TASK_LIST) => void;
+  onCompleteClick: (task: TYPE_TASK_LIST) => void;
 };
 
-export function getColumns({ onEditClick, onDeleteClick }: GetColumnsProps) {
+export function getColumns({
+  onEditClick,
+  onDeleteClick,
+  onCompleteClick,
+}: GetColumnsProps) {
   return columnHelper.columns([
     columnHelper.display({
       id: "select",
@@ -77,10 +82,19 @@ export function getColumns({ onEditClick, onDeleteClick }: GetColumnsProps) {
 
         return (
           <div className="flex items-center justify-end gap-3">
-            <Pencil
-              className="text-blue-100 size-5 hover:text-blue-400 cursor-pointer"
-              onClick={() => onEditClick(row.original)}
-            />
+            {!row?.original?.isCompleted && (
+              <>
+                <Check
+                  className="text-green-100 size-6 hover:text-green-400 cursor-pointer"
+                  onClick={() => onCompleteClick(row.original)}
+                />
+                <Pencil
+                  className="text-blue-100 size-5 hover:text-blue-400 cursor-pointer"
+                  onClick={() => onEditClick(row.original)}
+                />
+              </>
+            )}
+
             <Trash
               className="text-blue-100 size-5 hover:text-red-400 cursor-pointer"
               onClick={() => onDeleteClick(row.original)}

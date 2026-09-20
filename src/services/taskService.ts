@@ -3,7 +3,8 @@ import { TASK } from "./apiUrls";
 
 type TYPE_TASK_PAYLOAD = {
   id?: number;
-  task: string;
+  task?: string;
+  isCompleted?: boolean;
 };
 
 type TYPE_GET_TASK_LIST_BY_USER = {
@@ -19,7 +20,7 @@ export const addTask = (payload: TYPE_TASK_PAYLOAD) => {
 };
 
 export const editTask = (payload: TYPE_TASK_PAYLOAD) => {
-  return api.put(`${TASK}/edit/${payload?.id}`, payload);
+  return api.put(`${TASK}/${payload?.id}`, payload);
 };
 
 export const deleteTask = (payload: TYPE_TASK_PAYLOAD) => {

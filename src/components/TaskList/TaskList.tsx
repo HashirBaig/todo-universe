@@ -11,6 +11,7 @@ import { useTaskStore } from "@/store/taskStore";
 
 import DeleteTaskModel from "@/components/Models/DeleteTaskModel";
 import EditTaskModel from "@/components/Models/EditTaskModel";
+import { editTask } from "@/services/taskService";
 
 type TaskListProps = {
   dataList: TYPE_TASK_LIST[];
@@ -65,15 +66,18 @@ function TaskList({ dataList, getList }: TaskListProps) {
   };
 
   // Edit Task Method
-  const handleEdit = (updatedTask: TYPE_TASK_LIST) => {
+  const handleEdit = async (task: TYPE_TASK_LIST) => {
     try {
-      console.log("edit task: ", updatedTask);
-      toast.success("Task successfully edited!");
-      // TODO: setTaskData(taskData.map(t => t.id === updatedTask.id ? updatedTask : t))
-      // or call an update API once one exists
+      const _data = { ...task };
+
+      const res = await editTask(_data);
+      if (res) {
+        toast.success("Task successfully edited!");
+        getList("all");
+      }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to edit!");
+      toast.error("Request Failed!");
     } finally {
       setIsEditTaskModelOpen(false);
       setTaskToEdit(null);
@@ -98,11 +102,27 @@ function TaskList({ dataList, getList }: TaskListProps) {
     }
   };
 
+  const handleComplete = async (task: TYPE_TASK_LIST) => {
+    try {
+      const _data = { isCompleted: true, id: task?.id };
+
+      const res = await editTask(_data);
+      if (res) {
+        toast.success("Task marked completed!");
+        getList("completed");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Request failed!");
+    }
+  };
+
   const columns = useMemo(
     () =>
       getColumns({
         onEditClick: openEditModal,
         onDeleteClick: openDeleteModal,
+        onCompleteClick: handleComplete,
       }),
     [],
   );
