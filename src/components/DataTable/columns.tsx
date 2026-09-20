@@ -1,7 +1,9 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { Star, Pencil, Trash, Check } from "lucide-react";
+import { Star, Pencil, Trash, Check, Calendar } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { getToday } from "@/lib/utils";
 
 import { type TYPE_TASK_LIST } from "@/lib/const";
 import { type DataTableFeatures } from "./DataTableFeatures";
@@ -48,6 +50,20 @@ export function getColumns({
           </span>
 
           <div className="flex items-center gap-2">
+            {row?.original?.createdDate ? (
+              <Badge
+                className={cn({
+                  "bg-purple-500/10 text-purple-500 border-purple-500/20":
+                    getToday(row?.original?.createdDate) === "Today",
+                  "bg-transparent text-gray-500":
+                    getToday(row?.original?.createdDate) !== "Today",
+                })}
+              >
+                <Calendar className="size-4" />
+                <span>{getToday(row?.original?.createdDate)}</span>
+              </Badge>
+            ) : null}
+
             {row?.original?.isImportant ? (
               <Badge className="bg-amber-500/10 text-red-500 border-red-500/20">
                 <Star className="size-4" />

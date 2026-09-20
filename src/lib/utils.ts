@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import dayjs from "dayjs";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -19,3 +20,8 @@ export function formatCurrency(amount: number) {
     currency: "EUR",
   }).format(amount);
 }
+export const getToday = (dateString: string) => {
+  const date = dayjs(dateString);
+
+  return date.isSame(dayjs(), "day") ? "Today" : date.format("MMM DD, YYYY");
+};
