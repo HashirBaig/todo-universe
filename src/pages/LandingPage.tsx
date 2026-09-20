@@ -17,7 +17,6 @@ function LandingPage() {
 
   const getTaskData = useCallback(async (activeTab: string | null = "all") => {
     try {
-      console.log("active tab: ", activeTab);
       const res = await getAllTaskByUser();
       setTaskData(filterTasksByTab(res?.data ?? [], activeTab));
     } catch (error) {
