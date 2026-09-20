@@ -33,11 +33,6 @@ function TaskList({ dataList, getList }: TaskListProps) {
   const setTaskInfo = useTaskStore((state) => state?.setTaskInfo);
   const setMultiSelect = useTaskStore((state) => state?.setMultiSelect);
 
-  // useEffect Hook
-  useEffect(() => {
-    getList(activeTab);
-  }, [activeTab, getList]);
-
   useEffect(() => {
     setTaskInfo({
       totalTask: dataList?.length || 0,
@@ -47,6 +42,7 @@ function TaskList({ dataList, getList }: TaskListProps) {
 
   // On change method
   const onTabChange = (value: string) => {
+    getList(value);
     setActiveTab(value);
   };
 
@@ -114,7 +110,7 @@ function TaskList({ dataList, getList }: TaskListProps) {
   return (
     <>
       <CardWrapper>
-        <Tabs className="w-full" onValueChange={onTabChange}>
+        <Tabs className="w-full" value={activeTab} onValueChange={onTabChange}>
           <TabsList>
             {NavTabsList?.map(({ label, value }, idx) => (
               <TabsTrigger value={value} key={`nav-tabs-todo-${idx}`}>
