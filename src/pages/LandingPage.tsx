@@ -15,9 +15,11 @@ function LandingPage() {
   const remainingTask = useTaskStore((state) => state.remainingTask);
   const [taskData, setTaskData] = useState<TYPE_TASK_LIST[]>([]);
 
-  const getTaskData = useCallback(async (activeTab: string | null = "all") => {
+  const getTaskData = useCallback(async (activeTab: string = "all") => {
     try {
-      const res = await getTaskListByUser({ filter: activeTab ?? "all" });
+      const params = { filter: activeTab || "all" };
+
+      const res = await getTaskListByUser(params);
       setTaskData(res?.data);
     } catch (error) {
       console.error(error);

@@ -27,7 +27,7 @@ function TaskList({ dataList, getList }: TaskListProps) {
   const [taskToEdit, setTaskToEdit] = useState<TYPE_TASK_LIST | null>(null);
 
   // Active tab state
-  const [activeTab, setActiveTab] = useState<string | null>("");
+  const [activeTab, setActiveTab] = useState<string>("all");
 
   // Store methods
   const setTaskInfo = useTaskStore((state) => state?.setTaskInfo);
@@ -35,7 +35,7 @@ function TaskList({ dataList, getList }: TaskListProps) {
 
   // useEffect Hook
   useEffect(() => {
-    getList(activeTab ?? "all");
+    getList(activeTab);
   }, [activeTab, getList]);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ function TaskList({ dataList, getList }: TaskListProps) {
   }, [setTaskInfo, dataList]);
 
   // On change method
-  const onTabChange = (value: string | null) => {
+  const onTabChange = (value: string) => {
     setActiveTab(value);
   };
 
