@@ -6,21 +6,35 @@ import {
   DialogFooter,
 } from "../../ui/dialog";
 import { Button } from "../../ui/button";
+import type { TYPE_TASK_LIST } from "@/lib/const";
+import { useEffect, useState } from "react";
 
 type DeleteTaskModelProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onDelete: () => void;
+  task: TYPE_TASK_LIST | null;
+  onDelete: (task: TYPE_TASK_LIST | null) => void;
 };
 
 function DeleteTaskModel({
   open,
   onOpenChange,
+  task,
   onDelete,
 }: DeleteTaskModelProps) {
+  const [taskToSet, setTaskToSet] = useState<TYPE_TASK_LIST>();
+
+  // Whenever a new task is passed in (or the modal opens), prefill the input
+  useEffect(() => {
+    if (task) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setTaskToSet(task);
+    }
+  }, [task]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onDelete();
+    onDelete(taskToSet || null);
   };
 
   return (

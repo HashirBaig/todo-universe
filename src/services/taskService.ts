@@ -24,5 +24,5 @@ export const editTask = (payload: TYPE_TASK_PAYLOAD) => {
 };
 
 export const deleteTask = (payload: TYPE_TASK_PAYLOAD) => {
-  return api.delete(`${TASK}/delete/${payload?.id}`);
+  return api.delete(`${TASK}/${payload?.id}`);
 };

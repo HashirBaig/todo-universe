@@ -11,7 +11,7 @@ import { useTaskStore } from "@/store/taskStore";
 
 import DeleteTaskModel from "@/components/Models/DeleteTaskModel";
 import EditTaskModel from "@/components/Models/EditTaskModel";
-import { editTask } from "@/services/taskService";
+import { deleteTask, editTask } from "@/services/taskService";
 
 type TaskListProps = {
   dataList: TYPE_TASK_LIST[];
@@ -22,9 +22,12 @@ function TaskList({ dataList, getList }: TaskListProps) {
   // Model states
   const [isDeleteTaskModelOpen, setIsDeleteTaskModelOpen] =
     useState<boolean>(false);
+
   const [taskToDelete, setTaskToDelete] = useState<TYPE_TASK_LIST | null>(null);
+
   const [isEditTaskModelOpen, setIsEditTaskModelOpen] =
     useState<boolean>(false);
+
   const [taskToEdit, setTaskToEdit] = useState<TYPE_TASK_LIST | null>(null);
 
   // Active tab state
@@ -85,14 +88,15 @@ function TaskList({ dataList, getList }: TaskListProps) {
   };
 
   // Delete Task Method
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!taskToDelete) return;
 
     try {
-      console.log("delete task: ", taskToDelete);
-      toast.success("Task successfully deleted!");
-      // TODO: setTaskData(taskData.filter(t => t.id !== taskToDelete.id))
-      // or call a delete API once one exists
+      const res = await deleteTask(taskToDelete);
+      if (res) {
+        toast.success("Task successfully deleted!");
+        getList("all");
+      }
     } catch (error) {
       console.error(error);
       toast.error("Failed to delete!");
@@ -161,6 +165,7 @@ function TaskList({ dataList, getList }: TaskListProps) {
       <DeleteTaskModel
         open={isDeleteTaskModelOpen}
         onOpenChange={setIsDeleteTaskModelOpen}
+        task={taskToDelete}
         onDelete={handleDelete}
       />
     </>
