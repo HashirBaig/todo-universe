@@ -15,9 +15,9 @@ function App() {
 
   useEffect(() => {
     if (hasFetchedRef.current) return;
-    if (!hasHydrated) return;
-
     hasFetchedRef.current = true;
+
+    if (!hasHydrated) return;
 
     if (!username) {
       fetchGuestUser();

@@ -2,6 +2,7 @@ import Wrapper from "../components/Wrapper";
 import Hero from "../components/Hero";
 import AddTaskCard from "@/components/AddTaskCard";
 import TaskList from "@/components/TaskList";
+import ContactCard from "@/components/ContactCard";
 
 import { useState, useEffect, useCallback } from "react";
 import { useTaskStore } from "@/store/taskStore";
@@ -86,6 +87,8 @@ function LandingPage() {
           onPageChange={handlePageChange}
         />
       </section>
+
+      <ContactCard />
     </Wrapper>
   );
 }
