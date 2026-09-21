@@ -1,5 +1,5 @@
 import { createColumnHelper } from "@tanstack/react-table";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Star, Pencil, Trash, Check, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -24,18 +24,18 @@ export function getColumns({
   onImportantClick,
 }: GetColumnsProps) {
   return columnHelper.columns([
-    columnHelper.display({
-      id: "select",
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    }),
+    // columnHelper.display({
+    //   id: "select",
+    //   cell: ({ row }) => (
+    //     <Checkbox
+    //       checked={row.getIsSelected()}
+    //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+    //       aria-label="Select row"
+    //     />
+    //   ),
+    //   enableSorting: false,
+    //   enableHiding: false,
+    // }),
 
     columnHelper.accessor("task", {
       header: "Task",
