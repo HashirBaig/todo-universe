@@ -23,7 +23,7 @@ function LandingPage() {
       const params = { filter: activeTab || "all" };
 
       const res = await getTaskListByUser(params);
-      setTaskData(res?.data);
+      setTaskData(res?.data?.data);
     } catch (error) {
       console.error(error);
       toast.error("Failed to fetch data");
