@@ -15,10 +15,22 @@ import { deleteTask, editTask } from "@/services/taskService";
 
 type TaskListProps = {
   dataList: TYPE_TASK_LIST[];
-  getList: (activeTab?: string) => void;
+  getList: (activeTab?: string, page?: number) => void;
+  pagination: {
+    page: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
+  onPageChange: (page: number) => void;
 };
 
-function TaskList({ dataList, getList }: TaskListProps) {
+function TaskList({
+  dataList,
+  getList,
+  pagination,
+  onPageChange,
+}: TaskListProps) {
   // Model states
   const [isDeleteTaskModelOpen, setIsDeleteTaskModelOpen] =
     useState<boolean>(false);
@@ -46,7 +58,7 @@ function TaskList({ dataList, getList }: TaskListProps) {
 
   // On change method
   const onTabChange = (value: string) => {
-    getList(value);
+    getList(value, 1);
     setActiveTab(value);
   };
 
@@ -168,6 +180,8 @@ function TaskList({ dataList, getList }: TaskListProps) {
               columns={columns}
               data={dataList}
               onSelectionCountChange={handleSelectionCountChange}
+              pagination={pagination}
+              onPageChange={onPageChange}
             />
           </TabsContent>
         </Tabs>

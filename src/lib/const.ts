@@ -10,6 +10,22 @@ export const NavTabsList: TypeNavTabs[] = [
   { label: "Completed", value: "completed" },
 ];
 
+export type TYPE_PAGINATION = {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+};
+
+export type TYPE_PAGINATION_META = {
+  page: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+};
+
 export type TYPE_TASK_LIST = {
   id?: number;
   task: string;

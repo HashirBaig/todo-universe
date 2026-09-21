@@ -9,26 +9,45 @@ import { useUserStore } from "@/store/userStore";
 import { getTaskListByUser } from "@/services/taskService";
 import { toast } from "sonner";
 
-import { type TYPE_TASK_LIST } from "@/lib/const";
+import type { TYPE_TASK_LIST, TYPE_PAGINATION } from "@/lib/const";
+
+const DEFAULT_PAGINATION: TYPE_PAGINATION = {
+  page: 1,
+  limit: 4,
+  total: 0,
+  totalPages: 1,
+  hasNextPage: false,
+  hasPrevPage: false,
+};
 
 function LandingPage() {
   const totalTask = useTaskStore((state) => state?.totalTask);
   const remainingTask = useTaskStore((state) => state?.remainingTask);
   const username = useUserStore((state) => state?.username);
 
+  const [pagination, setPagination] =
+    useState<TYPE_PAGINATION>(DEFAULT_PAGINATION);
+  const [activeTab, setActiveTab] = useState<string>("all");
   const [taskData, setTaskData] = useState<TYPE_TASK_LIST[]>([]);
 
-  const getTaskData = useCallback(async (activeTab: string = "all") => {
-    try {
-      const params = { filter: activeTab || "all" };
+  const getTaskData = useCallback(
+    async (tab: string = "all", page: number = 1) => {
+      try {
+        const params = { filter: tab || "all", page, limit: pagination.limit };
 
-      const res = await getTaskListByUser(params);
-      setTaskData(res?.data?.data);
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to fetch data");
-    }
-  }, []);
+        console.log("params: ", params);
+
+        const res = await getTaskListByUser(params);
+        setTaskData(res?.data?.data);
+        setPagination(res?.data?.pagination ?? DEFAULT_PAGINATION);
+        setActiveTab(tab);
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to fetch data");
+      }
+    },
+    [pagination.limit],
+  );
 
   useEffect(() => {
     if (username) {
@@ -36,6 +55,11 @@ function LandingPage() {
       getTaskData();
     }
   }, [getTaskData, username]);
+
+  const handlePageChange = (page: number) => {
+    console.log("page: ", page);
+    getTaskData(activeTab, page);
+  };
 
   return (
     <Wrapper>
@@ -57,7 +81,12 @@ function LandingPage() {
       </section>
 
       <section className="mt-8">
-        <TaskList dataList={taskData} getList={getTaskData} />
+        <TaskList
+          dataList={taskData}
+          getList={getTaskData}
+          pagination={pagination}
+          onPageChange={handlePageChange}
+        />
       </section>
     </Wrapper>
   );

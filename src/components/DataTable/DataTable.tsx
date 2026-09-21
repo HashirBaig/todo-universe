@@ -4,17 +4,23 @@ import { useTable, type ColumnDef, type RowData } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 import { features, type DataTableFeatures } from "./DataTableFeatures";
+import type { TYPE_PAGINATION_META } from "@/lib/const";
+import { Button } from "@/components/ui/button";
 
 interface DataTableProps<TData extends RowData> {
   columns: ColumnDef<DataTableFeatures, TData>[];
   data: TData[];
   onSelectionCountChange?: (count: number) => void;
+  pagination?: TYPE_PAGINATION_META;
+  onPageChange?: (page: number) => void;
 }
 
 function DataTable<TData extends RowData>({
   columns,
   data,
   onSelectionCountChange,
+  pagination,
+  onPageChange,
 }: DataTableProps<TData>) {
   const [rowSelection, setRowSelection] = useState({});
 
@@ -70,9 +76,35 @@ function DataTable<TData extends RowData>({
         </Table>
       </div>
 
-      <div className="flex-1 text-sm text-gray-400 mt-3">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
+      <div className="flex items-center justify-between mt-3">
+        <div className="text-sm text-gray-400">
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+
+        {pagination && onPageChange && (
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-gray-400">
+              Page {pagination.page} of {pagination.totalPages || 1}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onPageChange(pagination.page - 1)}
+              disabled={!pagination.hasPrevPage}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onPageChange(pagination.page + 1)}
+              disabled={!pagination.hasNextPage}
+            >
+              Next
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
