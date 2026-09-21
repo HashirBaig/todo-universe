@@ -77,6 +77,7 @@ function TaskList({ dataList, getList }: TaskListProps) {
       if (res) {
         toast.success("Task successfully edited!");
         getList("all");
+        setActiveTab("all");
       }
     } catch (error) {
       console.error(error);
@@ -95,7 +96,8 @@ function TaskList({ dataList, getList }: TaskListProps) {
       const res = await deleteTask(taskToDelete);
       if (res) {
         toast.success("Task successfully deleted!");
-        getList("all");
+        getList();
+        setActiveTab("all");
       }
     } catch (error) {
       console.error(error);
