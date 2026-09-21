@@ -14,12 +14,14 @@ type GetColumnsProps = {
   onEditClick: (task: TYPE_TASK_LIST) => void;
   onDeleteClick: (task: TYPE_TASK_LIST) => void;
   onCompleteClick: (task: TYPE_TASK_LIST) => void;
+  onImportantClick: (task: TYPE_TASK_LIST) => void;
 };
 
 export function getColumns({
   onEditClick,
   onDeleteClick,
   onCompleteClick,
+  onImportantClick,
 }: GetColumnsProps) {
   return columnHelper.columns([
     columnHelper.display({
@@ -98,6 +100,14 @@ export function getColumns({
 
         return (
           <div className="flex items-center justify-end gap-3">
+            <Star
+              className={cn("size-6 cursor-pointer", {
+                "text-red-100  hover:text-red-400": !row?.original?.isImportant,
+                "text-red-400  hover:text-red-100": row?.original?.isImportant,
+              })}
+              onClick={() => onImportantClick(row.original)}
+            />
+
             {!row?.original?.isCompleted && (
               <>
                 <Check
