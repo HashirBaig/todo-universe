@@ -35,8 +35,6 @@ function LandingPage() {
       try {
         const params = { filter: tab || "all", page, limit: pagination.limit };
 
-        console.log("params: ", params);
-
         const res = await getTaskListByUser(params);
         setTaskData(res?.data?.data);
         setPagination(res?.data?.pagination ?? DEFAULT_PAGINATION);
