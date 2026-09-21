@@ -2,7 +2,7 @@ import api from "../lib/axios";
 import { USER } from "./apiUrls";
 
 export type GuestUser = {
-  _id: string;
+  id: string;
   username: string;
 };
 

@@ -6,12 +6,15 @@ import { useUserStore } from "./store/userStore";
 
 // CSS import
 import "./App.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 function App() {
+  const hasFetchedRef = useRef(false);
   const fetchGuestUser = useUserStore((state) => state.fetchGuestUser);
 
   useEffect(() => {
+    if (hasFetchedRef.current) return;
+    hasFetchedRef.current = true;
     fetchGuestUser();
   }, [fetchGuestUser]);
 
