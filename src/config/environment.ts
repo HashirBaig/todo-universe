@@ -6,8 +6,6 @@ const prod = {
   API_URL: "https://todo-universe-nodets.vercel.app/api",
 };
 
-console.log("env >>>> ", import.meta.env.MODE);
-
 const config = import.meta.env.MODE === "production" ? prod : dev;
 
 export default config;
