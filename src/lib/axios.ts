@@ -1,8 +1,8 @@
 import axios from "axios";
-import config from "@/config/environment";
+// import config from "@/config/environment";
 
 const api = axios.create({
-  baseURL: `${config?.API_URL}`,
+  baseURL: "https://todo-universe-nodets.vercel.app/api",
   headers: {
     "Content-Type": "application/json",
   },
