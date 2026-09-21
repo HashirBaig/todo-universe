@@ -4,19 +4,25 @@ import { Toaster } from "./components/ui/sonner";
 import LandingPage from "./pages/LandingPage";
 import { useUserStore } from "./store/userStore";
 
-// CSS import
 import "./App.css";
 import { useEffect, useRef } from "react";
 
 function App() {
   const hasFetchedRef = useRef(false);
+  const hasHydrated = useUserStore((state) => state.hasHydrated);
+  const username = useUserStore((state) => state.username);
   const fetchGuestUser = useUserStore((state) => state.fetchGuestUser);
 
   useEffect(() => {
     if (hasFetchedRef.current) return;
+    if (!hasHydrated) return;
+
     hasFetchedRef.current = true;
-    fetchGuestUser();
-  }, [fetchGuestUser]);
+
+    if (!username) {
+      fetchGuestUser();
+    }
+  }, [hasHydrated, username, fetchGuestUser]);
 
   return (
     <>

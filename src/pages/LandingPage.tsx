@@ -5,14 +5,17 @@ import TaskList from "@/components/TaskList";
 
 import { useState, useEffect, useCallback } from "react";
 import { useTaskStore } from "@/store/taskStore";
+import { useUserStore } from "@/store/userStore";
 import { getTaskListByUser } from "@/services/taskService";
 import { toast } from "sonner";
 
 import { type TYPE_TASK_LIST } from "@/lib/const";
 
 function LandingPage() {
-  const totalTask = useTaskStore((state) => state.totalTask);
-  const remainingTask = useTaskStore((state) => state.remainingTask);
+  const totalTask = useTaskStore((state) => state?.totalTask);
+  const remainingTask = useTaskStore((state) => state?.remainingTask);
+  const username = useUserStore((state) => state?.username);
+
   const [taskData, setTaskData] = useState<TYPE_TASK_LIST[]>([]);
 
   const getTaskData = useCallback(async (activeTab: string = "all") => {
@@ -28,9 +31,11 @@ function LandingPage() {
   }, []);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    getTaskData();
-  }, [getTaskData]);
+    if (username) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      getTaskData();
+    }
+  }, [getTaskData, username]);
 
   return (
     <Wrapper>
