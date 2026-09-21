@@ -126,11 +126,11 @@ function TaskList({ dataList, getList }: TaskListProps) {
 
   const handleMarkAsImportant = async (task: TYPE_TASK_LIST) => {
     try {
-      const _data = { isImportant: true, id: task?.id };
+      const _data = { isImportant: !task?.isImportant, id: task?.id };
 
       const res = await editTask(_data);
       if (res) {
-        toast.success("Task marked important!");
+        toast.success("Task status updated!");
         getList();
         setActiveTab("all");
       }
