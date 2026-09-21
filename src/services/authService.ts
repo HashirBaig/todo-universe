@@ -1,21 +1,11 @@
 import api from "../lib/axios";
+import { USER } from "./apiUrls";
 
-export type LoginPayload = {
-  email: string;
-  password: string;
+export type GuestUser = {
+  _id: string;
+  username: string;
 };
 
-export type RegisterPayload = {
-  email: string;
-  password: string;
-  fullName: string;
-  role: "ADMIN" | "STAFF" | "CUSTOMER";
-};
-
-export const login = (payload: LoginPayload) => {
-  return api.post("/auth/login", payload);
-};
-
-export const register = (payload: RegisterPayload) => {
-  return api.post("/auth/register", payload);
+export const createGuestUser = () => {
+  return api.post<GuestUser>(`${USER}/guest`);
 };
