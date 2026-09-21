@@ -8,6 +8,6 @@ const prod = {
 
 console.log("env >>>> ", import.meta.env.MODE);
 
-const config = import.meta.env.MODE === "development" ? dev : prod;
+const config = import.meta.env.MODE === "production" ? prod : dev;
 
 export default config;
