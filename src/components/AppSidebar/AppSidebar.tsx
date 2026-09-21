@@ -1,16 +1,12 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { LayoutDashboard, Users, LogOut } from "lucide-react";
-import { useAuthStore } from "../../store/authStore";
 import { cn } from "../../lib/utils";
 import vegBasketLogo from "@/assets/mealcart/veg_basket.png";
 
 function Sidebar() {
   const navigate = useNavigate();
-  const user = useAuthStore((state) => state.user);
-  const logout = useAuthStore((state) => state.logout);
 
   const handleLogout = () => {
-    logout();
     navigate("/login");
   };
 
@@ -48,10 +44,8 @@ function Sidebar() {
       </div>
 
       <div className="border-t border-gray-800 pt-4 px-4">
-        <p className="text-sm font-medium truncate">{user?.email}</p>
-        <p className="text-xs text-gray-500 mb-3 capitalize">
-          {user?.role.toLowerCase()}
-        </p>
+        <p className="text-sm font-medium truncate"></p>
+        <p className="text-xs text-gray-500 mb-3 capitalize"></p>
 
         <button
           onClick={handleLogout}
