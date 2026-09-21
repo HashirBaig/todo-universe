@@ -21,7 +21,7 @@ function ContactCard() {
         // Reappear 21 seconds after disappearing
         showTimeout = setTimeout(() => {
           showCardCycle();
-        }, 21000);
+        }, 35000);
       }, 7000);
     };
 

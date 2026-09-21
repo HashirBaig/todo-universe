@@ -99,7 +99,10 @@ export function getColumns({
         }
 
         return (
-          <div className="flex items-center justify-end gap-3">
+          <div
+            className="flex items-center justify-end gap-3"
+            title="mark important, complete, edit & delete"
+          >
             <Star
               className={cn("size-6 cursor-pointer", {
                 "text-red-100  hover:text-red-400": !row?.original?.isImportant,
