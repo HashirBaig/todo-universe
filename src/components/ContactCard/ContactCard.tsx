@@ -1,14 +1,49 @@
 import BoyImage from "@/assets/boy_waving.png";
 import { Button } from "@/components/ui/button";
 import { Mail } from "lucide-react";
+import { useEffect, useState } from "react";
 import "./contact-card.css";
 
 function ContactCard() {
+  const [showCard, setShowCard] = useState(false);
+
+  useEffect(() => {
+    let hideTimeout: ReturnType<typeof setTimeout>;
+    let showTimeout: ReturnType<typeof setTimeout>;
+
+    const showCardCycle = () => {
+      setShowCard(true);
+
+      // Card/animation stays for 7 seconds
+      hideTimeout = setTimeout(() => {
+        setShowCard(false);
+
+        // Reappear 21 seconds after disappearing
+        showTimeout = setTimeout(() => {
+          showCardCycle();
+        }, 21000);
+      }, 7000);
+    };
+
+    // First appearance after 7 seconds
+    const initialTimeout = setTimeout(() => {
+      showCardCycle();
+    }, 7000);
+
+    return () => {
+      clearTimeout(initialTimeout);
+      clearTimeout(hideTimeout);
+      clearTimeout(showTimeout);
+    };
+  }, []);
+
+  if (!showCard) return null;
+
   return (
     <div
       className="
         fixed
-        z-[100]
+        z-100
         bottom-6
         right-6
         flex
