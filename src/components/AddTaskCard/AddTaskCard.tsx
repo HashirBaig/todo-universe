@@ -69,13 +69,25 @@ const AddTaskCard = ({ getList }: AddTaskCardProps) => {
             disabled={isLoading}
           />
 
-          <Star
-            className={cn("size-8 mr-2 cursor-pointer", {
-              "text-blue-300": !isTaskImportant,
-              "text-red-300": isTaskImportant,
-            })}
+          <div
+            className="flex items-center gap-2 cursor-pointer"
             onClick={() => setIsTaskImportant(!isTaskImportant)}
-          />
+          >
+            <Star
+              className={cn("size-8", {
+                "text-blue-300": !isTaskImportant,
+                "text-red-300": isTaskImportant,
+              })}
+            />
+            <span
+              className={cn("text-sm font-semibold w-fit md:w-35", {
+                "text-blue-300": !isTaskImportant,
+                "text-red-300": isTaskImportant,
+              })}
+            >
+              Mark as Important
+            </span>
+          </div>
         </div>
 
         <Button
