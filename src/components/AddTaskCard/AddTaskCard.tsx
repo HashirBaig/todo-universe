@@ -8,6 +8,7 @@ import { Plus, Star } from "lucide-react";
 import { addTask } from "@/services/taskService";
 import { cn } from "@/lib/utils";
 
+import Tooltip from "@/components/Tooltip";
 import CardWrapper from "@/components/CardWrapper";
 
 type AddTaskFormData = {
@@ -66,27 +67,20 @@ const AddTaskCard = ({ getList }: AddTaskCardProps) => {
             onChange={(e) =>
               setFormData({ ...formData, task: e?.target?.value })
             }
-            disabled={isLoading}
           />
 
           <div
-            className="flex items-center gap-2 cursor-pointer"
+            className="flex items-center cursor-pointer pr-2"
             onClick={() => setIsTaskImportant(!isTaskImportant)}
           >
-            <Star
-              className={cn("size-8", {
-                "text-blue-300": !isTaskImportant,
-                "text-red-300": isTaskImportant,
-              })}
-            />
-            <span
-              className={cn("text-sm font-semibold w-fit md:w-35", {
-                "text-blue-300": !isTaskImportant,
-                "text-red-300": isTaskImportant,
-              })}
-            >
-              Mark as Important
-            </span>
+            <Tooltip title="Mark important">
+              <Star
+                className={cn("size-8 hover:text-red-300", {
+                  "text-blue-300": !isTaskImportant,
+                  "text-red-300": isTaskImportant,
+                })}
+              />
+            </Tooltip>
           </div>
         </div>
 

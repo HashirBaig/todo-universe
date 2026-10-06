@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Star, Pencil, Trash, Check, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getToday } from "@/lib/utils";
+import Tooltip from "@/components/Tooltip";
 
 import { type TYPE_TASK_LIST } from "@/lib/const";
 import { type DataTableFeatures } from "./DataTableFeatures";
@@ -99,35 +100,43 @@ export function getColumns({
         }
 
         return (
-          <div
-            className="flex items-center justify-end gap-3"
-            title="mark important, complete, edit & delete"
-          >
-            <Star
-              className={cn("size-6 cursor-pointer", {
-                "text-red-100  hover:text-red-400": !row?.original?.isImportant,
-                "text-red-400  hover:text-red-100": row?.original?.isImportant,
-              })}
-              onClick={() => onImportantClick(row.original)}
-            />
+          <div className="flex items-center justify-end gap-3">
+            <Tooltip title="Mark important or unimportant">
+              <Star
+                className={cn("size-6 cursor-pointer", {
+                  "text-red-100  hover:text-red-400":
+                    !row?.original?.isImportant,
+                  "text-red-400  hover:text-red-100":
+                    row?.original?.isImportant,
+                })}
+                onClick={() => onImportantClick(row.original)}
+              />
+            </Tooltip>
 
             {!row?.original?.isCompleted && (
               <>
-                <Check
-                  className="text-green-100 size-6 hover:text-green-400 cursor-pointer"
-                  onClick={() => onCompleteClick(row.original)}
-                />
-                <Pencil
-                  className="text-blue-100 size-5 hover:text-blue-400 cursor-pointer"
-                  onClick={() => onEditClick(row.original)}
-                />
+                <Tooltip title="Mark task complete or incomplete">
+                  <Check
+                    className="text-green-100 size-6 hover:text-green-400 cursor-pointer"
+                    onClick={() => onCompleteClick(row.original)}
+                  />
+                </Tooltip>
+
+                <Tooltip title="Edit task">
+                  <Pencil
+                    className="text-blue-100 size-5 hover:text-blue-400 cursor-pointer"
+                    onClick={() => onEditClick(row.original)}
+                  />
+                </Tooltip>
               </>
             )}
 
-            <Trash
-              className="text-blue-100 size-5 hover:text-red-400 cursor-pointer"
-              onClick={() => onDeleteClick(row.original)}
-            />
+            <Tooltip title="Delete task">
+              <Trash
+                className="text-blue-100 size-5 hover:text-red-400 cursor-pointer"
+                onClick={() => onDeleteClick(row.original)}
+              />
+            </Tooltip>
           </div>
         );
       },
