@@ -76,7 +76,7 @@ function DataTable<TData extends RowData>({
         </Table>
       </div>
 
-      <div className="flex items-center justify-end mt-3">
+      <div className="flex items-center mt-3">
         {/* <div className="text-sm text-gray-400">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
