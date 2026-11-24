@@ -152,6 +152,22 @@ function TaskList({
     }
   };
 
+  const handlePinTask = async (task: TYPE_TASK_LIST) => {
+    try {
+      const _data = { isPinned: !task?.isPinned, id: task?.id };
+
+      const res = await editTask(_data);
+      if (res) {
+        toast.success("Task Pinned!");
+        getList();
+        setActiveTab("all");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Request failed!");
+    }
+  };
+
   const columns = useMemo(
     () =>
       getColumns({
@@ -159,6 +175,7 @@ function TaskList({
         onDeleteClick: openDeleteModal,
         onCompleteClick: handleComplete,
         onImportantClick: handleMarkAsImportant,
+        onPinClick: handlePinTask,
       }),
     [],
   );

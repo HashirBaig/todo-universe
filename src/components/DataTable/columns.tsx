@@ -1,7 +1,7 @@
 import { createColumnHelper } from "@tanstack/react-table";
 // import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { Star, Pencil, Trash, Check, Calendar } from "lucide-react";
+import { Star, Pencil, Trash, Check, Calendar, PinIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getToday } from "@/lib/utils";
 import Tooltip from "@/components/Tooltip";
@@ -16,6 +16,7 @@ type GetColumnsProps = {
   onDeleteClick: (task: TYPE_TASK_LIST) => void;
   onCompleteClick: (task: TYPE_TASK_LIST) => void;
   onImportantClick: (task: TYPE_TASK_LIST) => void;
+  onPinClick: (task: TYPE_TASK_LIST) => void;
 };
 
 export function getColumns({
@@ -23,6 +24,7 @@ export function getColumns({
   onDeleteClick,
   onCompleteClick,
   onImportantClick,
+  onPinClick,
 }: GetColumnsProps) {
   return columnHelper.columns([
     // columnHelper.display({
@@ -42,15 +44,23 @@ export function getColumns({
       header: "Task",
       cell: ({ row }) => (
         <div className="flex flex-col justify-center space-y-3">
-          <span
-            className={
-              row.original.isCompleted
-                ? "line-through text-gray-500 text-lg"
-                : "text-gray-100 text-lg"
-            }
-          >
-            {row?.original?.task}
-          </span>
+          <div className="relative flex flex-col gap-5">
+            {row.original.isPinned && (
+              <PinIcon
+                size={16}
+                className="top-0 left-0 absolute text-amber-400"
+              />
+            )}
+            <span
+              className={`mt-4 ${
+                row.original.isCompleted
+                  ? "line-through text-gray-500 text-lg"
+                  : "text-gray-100 text-lg"
+              }`}
+            >
+              {row?.original?.task}
+            </span>
+          </div>
 
           <div className="flex items-center gap-2">
             {row?.original?.createdDate ? (
@@ -101,6 +111,15 @@ export function getColumns({
 
         return (
           <div className="flex items-center justify-end gap-3">
+            {!row?.original?.isPinned && (
+              <Tooltip title="Pin task">
+                <PinIcon
+                  className="text-amber-100 size-6 hover:text-amber-400 cursor-pointer"
+                  onClick={() => onPinClick(row.original)}
+                />
+              </Tooltip>
+            )}
+
             <Tooltip title="Mark important or unimportant">
               <Star
                 className={cn("size-6 cursor-pointer", {

@@ -1,6 +1,5 @@
 const dev = {
-  // API_URL: "http://localhost:5000/api",
-  API_URL: "https://todo-universe-nodets.vercel.app/api",
+  API_URL: "http://localhost:5000/api",
 };
 
 const prod = {

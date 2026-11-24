@@ -33,6 +33,7 @@ export type TYPE_TASK_LIST = {
   isImportant?: boolean;
   isCompleted?: boolean;
   isEdited?: boolean;
+  isPinned?: boolean;
 };
 
 export const DataTaskList: TYPE_TASK_LIST[] = [
